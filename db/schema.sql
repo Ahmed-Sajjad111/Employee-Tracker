@@ -1,20 +1,22 @@
-/* department table
-id: INTEGER PRIMARY KEY
-name: varchar(30) to hold department name
-*/
+CREATE TABLE departments (
+id INTEGER AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(30) NOT NULL
+);
 
-/* role table
-id: INTEGER PRIMARY KEY
-title: VARCHAR(30) to hold role title
-salary: DECIMAL to hold role salary
-deparment_id INTEGER to hold reference to department role belongs to
-*/
+CREATE TABLE roles (
+id INTEGER AUTO_INCREMENT PRIMARY KEY,
+title VARCHAR(30) NOT NULL,
+salary DECIMAL NOT NULL,
+deparment_id INTEGER,
+CONSTRAINT fk_department FOREIGN KEY (deparment_id) REFERENCES departments(id) ON DELETE SET NULL
+);
 
-/* employee table
-id: INT PRIMARY KEY
-first_name: VARCHAR(30) to hold employee first name
-last_name: VARCHAR(30) to hold employee last name
-role_id: INT to hold reference to employee role
-manager_id: INT to hold reference to another employee that is manager of the current employee. 
-This field might be null if the employee has no manager.
-*/
+CREATE TABLE employee (
+id INT AUTO_INCREMENT PRIMARY KEY,
+first_name VARCHAR(30) NOT NULL,
+last_name VARCHAR(30) NOT NULL,
+role_id INTEGER, 
+CONSTRAINT fk_roles FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE SET NULL,
+manager_id INTEGER,
+CONSTRAINT fk_manager FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE SET NULL
+);
