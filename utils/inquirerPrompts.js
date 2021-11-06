@@ -1,8 +1,5 @@
-//application start
-//prompted to view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role
-
-//view all departments
-//return formatted table showing department names and department ids
+const db = require("../db/connection")
+const inquirer = require('inquirer')
 
 //view all roles
 //return table with the job title, role id, the department that role belongs to, and the salary for that role
@@ -18,6 +15,19 @@
 
 //add an employee
 //prompted to enter the employee’s first name, last name, role, and manager and that employee is added to the database
+const emp = Emp.getAll()
+const managerChoice = emp.map(({id, first_name, last_name}) => ({
+    name: `${first_name} ${last_name}`,
+    value: id
+}))
 
+const managerId = await inquirer.prompt({
+    type: 'list',
+    name: 'addEmployee',
+    message: 'Select which employee you wish to add. If none, click none.',
+    choices:managerChoice
+})
+
+db.query("set into employee  ?, ?, ?, ?", [first_name,last_name,role_id,managerId])
 //update an employee role
-//prompted to select an employee to update and their new role and this information is updated in the database 
+//prompted to select an employee to update and their new role and this information is updated in the database
