@@ -37,6 +37,7 @@ const choiceSelection = () => {
                 break;
             case "View All Roles":
                 //view all roles;
+                viewRoles();
                 break;
             case "View All Employees":
                 //view all employees;
@@ -71,3 +72,22 @@ const viewAllDepartments = () => {
       choiceSelection();
     });
 }
+
+//view all roles
+//return table with the job title, role id, the department that role belongs to, and the salary for that role
+function viewRoles() {
+    let query = `SELECT  
+                        roles.id AS "ID",
+                        roles.title AS "Title",
+                        roles.salary AS "Salary",
+                        departments.name AS "Department"
+                   FROM roles
+                   LEFT JOIN departments
+                     ON roles.department_id = departments.id`;
+    db.query(query, function (err, res) {
+      if (err) throw err;
+      console.table(res);
+
+      choiceSelection();
+    });
+  }
