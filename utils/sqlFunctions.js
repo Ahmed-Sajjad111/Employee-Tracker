@@ -87,6 +87,7 @@ const choiceSelection = () => {
                 break;
             case "Nothing":
                 //Nothing;
+                db.end();
                  break;
         }
     })
@@ -234,8 +235,14 @@ const viewDepartmentBudget = () => {
         ])
         .then(departmentInput => {
             const dept = departmentInput.department;
-            
-            db.query(`SELECT SUM(salary) AS budget FROM roles WHERE department_id = ?`, dept, (err, res) => {
+                      
+            const sql =`SELECT SUM(roles.salary) AS budget 
+                        FROM employee 
+                        LEFT JOIN roles on employee.role_id = roles.id 
+                        LEFT JOIN departments on roles.department_id = departments.id
+                        WHERE department_id = ?`
+
+            db.query(sql, dept, (err, res) => {
                 if (err) {
                     console.log(err);
                 }
