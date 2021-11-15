@@ -88,7 +88,7 @@ const choiceSelection = () => {
             case "Nothing":
                 //Nothing;
                 db.end();
-                 break;
+                break;
         }
     })
 }
